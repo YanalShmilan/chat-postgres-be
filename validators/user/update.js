@@ -4,5 +4,5 @@ exports.rules = () => [
   body('firstName').notEmpty(),
   body('lastName').notEmpty(),
   body('email').isEmail(),
-  body('password').isLength({ min: 5 }),
+  // body('password').optional().isLength({ min: 5 }),
 ];

@@ -8,6 +8,7 @@ exports.signin = async (req, res) => {
       where: {
         email,
       },
+      Hooks: true,
     });
     if (!user) return res.status(404).json({ message: 'User not found' });
     if (!bcrypt.compareSync(password, user.password))
@@ -35,6 +36,9 @@ exports.signup = async (req, res) => {
 
 const generateToken = (user) => {
   delete user.password;
-  const token = jwt.sign(user, 'secret', { expiresIn: '30d' });
+  user.avatar = `http://localhost:5000/upload/user/${user.id}/${user.avatar}`;
+  const token = jwt.sign(user, 'secret', {
+    expiresIn: Date.now() + 900000000000,
+  });
   return { ...user, token };
 };
