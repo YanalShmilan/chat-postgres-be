@@ -6,4 +6,4 @@ module.export = {
   'migrations-path': path.resolve('database', 'migrations'),
   'seeders-path': path.resolve('database', 'seeders'),
 };
-// sequelize db:seed:undo --config ./config/database.js
+// sequelize db:seed --seed 20211105164443-chats --config ./config/database.js
