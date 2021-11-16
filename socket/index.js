@@ -100,12 +100,26 @@ const SocketServer = (server) => {
           };
           const savedMessage = await Message.create(msg);
           message.id = savedMessage.id;
+          message.message = savedMessage.message;
           message.User = message.fromUserId;
           message.fromUserId = message.fromUserId.id;
           sockets.forEach((socket) => {
             io.to(socket).emit('recived', message);
           });
         } catch (error) {}
+      });
+    });
+    socket.on('typing', (message) => {
+      message.toUserId.forEach((id) => {
+        if (users.has(id)) {
+          users.get(id).sockets.forEach((socket) => {
+            try {
+              io.to(socket).emit('typing', message);
+            } catch (error) {
+              console.log(error);
+            }
+          });
+        }
       });
     });
   });
