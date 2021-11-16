@@ -122,6 +122,22 @@ const SocketServer = (server) => {
         }
       });
     });
+    socket.on('add-friend', (chats) => {
+      try {
+        console.log('heres');
+
+        if (users.has(chats[1].Users[0].id)) {
+          console.log('heres');
+          chats[0].Users[0].status = 'online';
+          users.get(chats[1].Users[0].id).sockets.forEach((socket) => {
+            io.to(socket).emit('new-chat', chats[0]);
+          });
+        }
+        users.get(chats[0].Users[0].id).sockets.forEach((socket) => {
+          io.to(socket).emit('new-chat', chats[1]);
+        });
+      } catch (error) {}
+    });
   });
 };
 
